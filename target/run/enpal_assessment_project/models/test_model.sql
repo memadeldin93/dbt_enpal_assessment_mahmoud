@@ -2,7 +2,7 @@
   
     
 
-  create  table "postgres"."public_pipedrive_analytics"."test_model__dbt_tmp"
+  create  table "postgres"."pipedrive_analytics"."test_model__dbt_tmp"
   
   
     as
