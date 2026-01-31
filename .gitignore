@@ -1,0 +1,21 @@
+# dbt build artifacts
+target/
+dbt_packages/
+logs/
+
+# local python env
+.venv/
+venv/
+__pycache__/
+*.pyc
+
+# editor / ide
+.vscode/
+.idea/
+.DS_Store
+
+# credentials / local config
+profiles.yml
+**/profiles.yml
+.env
+.env.*

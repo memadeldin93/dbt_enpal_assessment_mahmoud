@@ -1,0 +1,263 @@
+version: 2
+
+models:
+  - name: int_activities
+    description: "{{ doc('int_activities') }}"
+
+    meta:
+      owner: "Mahmoud Muhammed"
+      team: "Data Analytics"
+      email: "memadeldin93@gmail.com"
+
+    columns:
+      - name: activity_id
+        description: "{{ doc('stg_activity__activity_id') }}"
+        tests:
+          - not_null
+          - unique
+
+      - name: deal_id
+        description: "{{ doc('stg_activity__deal_id') }}"
+        tests:
+          - not_null
+
+      - name: type
+        description: "{{ doc('activity__type') }}"
+        tests:
+          - not_null
+
+      - name: name
+        description: "{{ doc('activity__name') }}"
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['Sales Call 1', 'Sales Call 2']
+
+      - name: funnel_step
+        description: "{{ doc('stages__funnel_step') }}"
+        tests:
+          - not_null
+
+      - name: assigned_to_user
+        description: "{{ doc('stg_activity__assigned_to_user') }}"
+        tests:
+          - not_null
+
+      - name: due_to_dt
+        description: "{{ doc('stg_activity__due_to_dt') }}"
+        tests:
+          - not_null
+
+      - name: month
+        description: "{{ doc('int_activities__month') }}"
+        tests:
+          - not_null
+  
+  - name: int_stages
+    description: "{{ doc('int_stages') }}"
+
+    meta:
+      owner: "Mahmoud Muhammed"
+      team: "Data Analytics"
+      email: "memadeldin93@gmail.com"
+
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - deal_id
+            - change_dt
+            - stage_id
+
+
+    columns:
+      - name: deal_id
+        description: "{{ doc('deal_id') }}"
+        tests:
+          - not_null
+
+      - name: change_dt
+        description: "{{ doc('change_dt') }}"
+        tests:
+          - not_null
+
+      - name: month
+        description: "{{ doc('int_stages__month') }}"
+        tests:
+          - not_null
+
+      - name: stage_id
+        description: "{{ doc('stage_id') }}"
+        tests:
+          - not_null
+
+      - name: stage_name
+        description: "{{ doc('stage_name') }}"
+        tests:
+          - not_null
+
+      - name: funnel_step
+        description: "{{ doc('stages__funnel_step') }}"
+        tests:
+          - not_null
+
+      - name: user_id
+        description: "{{ doc('int_stages__user_id') }}"
+
+      - name: assigned_user_start
+        description: "{{ doc('int_stages__assigned_user_start') }}"
+
+      - name: assigned_user_end
+        description: "{{ doc('int_stages__assigned_user_end') }}"
+
+  - name: int_stages_anmly
+    description: "{{ doc('int_stages_anmly') }}"
+
+    meta:
+      owner: "Mahmoud Muhammed"
+      team: "Data Analytics"
+      email: "memadeldin93@gmail.com"
+
+    columns:
+      - name: deal_id
+        description: "{{ doc('deal_id') }}"
+
+      - name: change_dt
+        description: "{{ doc('change_dt') }}"
+
+      - name: month
+        description: "{{ doc('int_stages__month') }}"
+
+      - name: stage_id
+        description: "{{ doc('stage_id') }}"
+
+      - name: stage_name
+        description: "{{ doc('stage_name') }}"
+
+      - name: funnel_step
+        description: "{{ doc('stages__funnel_step') }}"
+
+      - name: user_id
+        description: "{{ doc('int_stages__user_id') }}"
+
+      - name: assigned_user_start
+        description: "{{ doc('int_stages__assigned_user_start') }}"
+
+      - name: assigned_user_end
+        description: "{{ doc('int_stages__assigned_user_end') }}"
+
+      - name: prev_step
+        description: "{{ doc('int_stages_anmly__prev_step') }}"
+
+      - name: prev_user
+        description: "{{ doc('int_stages_anmly__prev_user') }}"
+
+      - name: rn
+        description: "{{ doc('int_stages_anmly__rn') }}"
+        tests:
+          - not_null
+
+      - name: anmly_flg
+        description: "{{ doc('int_stages_anmly__anmly_flg') }}"
+        tests:
+          - not_null
+          - accepted_values:
+              values: [0, 1]
+  
+  - name: int_sales_funnel
+    description: "{{ doc('int_sales_funnel') }}"
+
+    meta:
+      owner: "Mahmoud Muhammed"
+      team: "Data Analytics"
+      email: "memadeldin93@gmail.com"
+
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - deal_id
+            - change_dt
+            - kpi_name
+            - funnel_step
+            - user_id
+
+    columns:
+      - name: deal_id
+        description: "{{ doc('deal_id') }}"
+        tests:
+          - not_null
+
+      - name: kpi_name
+        description: "{{ doc('int_sales_funnel__kpi_name') }}"
+        tests:
+          - not_null
+
+      - name: funnel_step
+        description: "{{ doc('stages__funnel_step') }}"
+        tests:
+          - not_null
+
+      - name: user_id
+        description: "{{ doc('stg_users__user_id') }}"
+        tests:
+          - not_null
+
+      - name: change_dt
+        description: "{{ doc('change_dt') }}"
+        tests:
+          - not_null
+
+      - name: month
+        description: "{{ doc('int_stages__month') }}"
+        tests:
+          - not_null
+
+      - name: anmly_flg
+        description: "{{ doc('int_sales_funnel__anmly_flg') }}"
+
+      - name: prev_step
+        description: "{{ doc('int_sales_funnel__prev_step') }}"
+
+      - name: prev_user
+        description: "{{ doc('int_sales_funnel__prev_user') }}"
+
+      - name: funnel_anmly_flg
+        description: "{{ doc('int_sales_funnel__funnel_anmly_flg') }}"
+        tests:
+          - not_null
+          - accepted_values:
+              values: [0, 1]
+  
+  - name: int_step_month_matrix
+    description: "{{ doc('int_step_month_matrix') }}"
+
+    meta:
+      owner: "Mahmoud Muhammed"
+      team: "Data Analytics"
+      email: "memadeldin93@gmail.com"
+
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - month
+            - funnel_step
+
+    columns:
+      - name: month
+        description: "{{ doc('int_stages__month') }}"
+        tests:
+          - not_null
+
+      - name: kpi_name
+        description: "{{ doc('int_step_month_matrix__kpi_name') }}"
+        tests:
+          - not_null
+
+      - name: funnel_step
+        description: "{{ doc('int_step_month_matrix__funnel_step') }}"
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['Step 1', 'Step 2', 'Step 2.1', 'Step 3', 'Step 3.1', 'Step 4', 'Step 5', 'Step 6', 'Step 7', 'Step 8', 'Step 9']
+
+
+

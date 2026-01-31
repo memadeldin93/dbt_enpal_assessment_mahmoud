@@ -6,7 +6,7 @@
 }}
 
 WITH 
-avtivities AS (
+activities AS (
 		   		SELECT 
 				   	   deal_id,
 					   name				AS kpi_name,
@@ -31,7 +31,7 @@ avtivities AS (
 )
 
 ,stg_funnel AS ( 
-			    SELECT * FROM avtivities 
+			    SELECT * FROM activities 
 			    UNION ALL
 			    SELECT * FROM stages
 )

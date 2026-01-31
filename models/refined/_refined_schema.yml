@@ -1,0 +1,36 @@
+version: 2
+
+models:
+  - name: rep_sales_funnel_monthly
+    description: "{{ doc('rep_sales_funnel_monthly') }}"
+
+    meta:
+      owner: "Mahmoud Muhammed"
+      team: "Data Analytics"
+      email: "memadeldin93@gmail.com"
+
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - month
+            - kpi_name
+
+    columns:
+      - name: month
+        description: "{{ doc('int_stages__month') }}"
+        tests:
+          - not_null
+
+      - name: kpi_name
+        description: "{{ doc('int_step_month_matrix__kpi_name') }}"
+        tests:
+          - not_null
+
+      - name: funnel_step
+        description: "{{ doc('int_step_month_matrix__funnel_step') }}"
+        tests:
+          - not_null
+
+      - name: deals_count
+        description: "{{ doc('rep_sales_funnel_monthly__deals_count') }}"
+        

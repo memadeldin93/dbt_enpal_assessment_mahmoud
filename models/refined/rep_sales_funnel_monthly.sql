@@ -33,7 +33,14 @@ monthly_data AS (
              FROM {{ref("int_step_month_matrix")}} ms
              LEFT JOIN monthly_data a            ON ms.month = a.month
                                                     AND ms.kpi_name = a.kpi_name
+                                                    AND ms.funnel_step = a.funnel_step
+
                                
            )
-SELECT *
+SELECT 
+        month,
+        kpi_name,
+        funnel_step,
+        deals_count
+        
 FROM final

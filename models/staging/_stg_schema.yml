@@ -1,0 +1,204 @@
+version: 2
+
+models:
+  - name: stg_activity_types
+    description: "{{ doc('stg_activity_types') }}"
+
+    meta:
+      owner: "Mahmoud Muhammed"
+      team:  "Data Analytics"
+      email: "memadeldin93@gmail.com"
+
+    columns:
+      - name: activity_type_id
+        description: "{{ doc('activity_type_id') }}"
+        tests:
+          - not_null
+          - unique
+
+      - name: name
+        description: "{{ doc('activity__name') }}"
+        tests:
+          - not_null
+
+      - name: type
+        description: "{{ doc('activity__type') }}"
+        tests:
+          - not_null
+
+      - name: is_active
+        description: "{{ doc('activity__active') }}"
+        tests:
+          - not_null
+          - accepted_values:
+              values: [true, false]
+
+  - name: stg_activity
+    description: "{{ doc('stg_activity') }}"
+
+    meta:
+      owner: "Mahmoud Muhammed"
+      team:  "Data Analytics"
+      email: "memadeldin93@gmail.com"
+
+    columns:
+      - name: activity_id
+        description: "{{ doc('stg_activity__activity_id') }}"
+        tests:
+          - not_null
+          - unique
+
+      - name: type
+        description: "{{ doc('activity__type') }}"
+        tests:
+          - not_null
+
+      - name: assigned_to_user
+        description: "{{ doc('stg_activity__assigned_to_user') }}"
+        tests:
+          - not_null
+
+      - name: deal_id
+        description: "{{ doc('stg_activity__deal_id') }}"
+        tests:
+          - not_null
+
+      - name: done
+        description: "{{ doc('stg_activity__done') }}"
+        tests:
+          - not_null
+          - accepted_values:
+              values: [true, false]
+
+      - name: due_to_dt
+        description: "{{ doc('stg_activity__due_to_dt') }}"
+        tests:
+          - not_null
+
+  - name: stg_deal_changes
+    description: "{{ doc('stg_deal_changes') }}"
+
+    meta:
+      owner: "Mahmoud Muhammed"
+      team:  "Data Analytics"
+      email: "memadeldin93@gmail.com"
+
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - deal_id
+            - change_dt
+            - changed_field_key
+            - new_value
+
+    columns:
+      - name: deal_id
+        description: "{{ doc('deal_id') }}"
+        tests:
+          - not_null
+
+      - name: change_dt
+        description: "{{ doc('change_dt') }}"
+        tests:
+          - not_null
+
+      - name: changed_field_key
+        description: "{{ doc('changed_field_key') }}"
+        tests:
+          - not_null
+
+      - name: new_value
+        description: "{{ doc('change_new_value') }}"
+        tests:
+          - not_null
+
+  - name: stg_fields
+    description: "{{ doc('stg_fields_options') }}"
+
+    meta:
+      owner: "Mahmoud Muhammed"
+      team:  "Data Analytics"
+      email: "memadeldin93@gmail.com"
+
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - field_id
+            - option_id
+
+    columns:
+      - name: field_id
+        description: "{{ doc('field_id') }}"
+        tests:
+          - not_null
+
+      - name: field_key
+        description: "{{ doc('field_key') }}"
+        tests:
+          - not_null
+
+      - name: field_name
+        description: "{{ doc('field_name') }}"
+        tests:
+          - not_null
+
+      - name: option_id
+        description: "{{ doc('option_id') }}"
+
+      - name: option_label
+        description: "{{ doc('option_label') }}"
+
+  - name: stg_stages
+    description: "{{ doc('stg_stages') }}"
+
+    meta:
+      owner: "Mahmoud Muhammed"
+      team:  "Data Analytics"
+      email: "memadeldin93@gmail.com"
+
+    columns:
+      - name: stage_id
+        description: "{{ doc('stage_id') }}"
+        tests:
+          - not_null
+          - unique
+
+      - name: stage_name
+        description: "{{ doc('stage_name') }}"
+        tests:
+          - not_null
+      
+      - name: funnel_step
+        description: "{{ doc('stages__funnel_step') }}"
+        tests:
+          - not_null
+
+  - name: stg_users
+    description: "{{ doc('stg_users') }}"
+
+    meta:
+      owner: "Mahmoud Muhammed"
+      team:  "Data Analytics"
+      email: "memadeldin93@gmail.com"
+
+    columns:
+      - name: user_id
+        description: "{{ doc('stg_users__user_id') }}"
+        tests:
+          - not_null
+          - unique
+
+      - name: user_name
+        description: "{{ doc('stg_users__user_name') }}"
+        tests:
+          - not_null
+
+      - name: user_email
+        description: "{{ doc('stg_users__user_email') }}"
+        tests:
+          - not_null
+
+      - name: user_modified_at
+        description: "{{ doc('stg_users__user_modified_at') }}"
+        tests:
+          - not_null
