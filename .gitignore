@@ -8,6 +8,7 @@ logs/
 venv/
 __pycache__/
 *.pyc
+.user.yml
 
 # editor / ide
 .vscode/
